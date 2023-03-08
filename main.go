@@ -73,7 +73,7 @@ func InitPrelogin() (string, error) {
 
 func Prelogin(samlPreloginHTML string) (*SAMLPreloginData, error) {
 	os.RemoveAll("./data/Default/Preferences")
-	ui, err := lorca.New(`data:text/html,`+url.PathEscape(samlPreloginHTML), "./data", 500, 800)
+	ui, err := lorca.New(`data:text/html,`+url.PathEscape(samlPreloginHTML), "./data", 500, 800, "--remote-allow-origins=*")
 	if err != nil {
 		return nil, err
 	}
