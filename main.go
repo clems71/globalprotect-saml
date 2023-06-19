@@ -22,6 +22,8 @@ import (
 // const portalPreloginUrl = portalUrl + "/global-protect/prelogin.esp?tmp=tmp&kerberos-support=yes&ipv6-support=yes&clientVer=4100&clientos=Linux"
 
 var gatewayUrl = flag.String("gateway", "", "Gateway URL (eg: dublin-1.vpn.company.com)")
+var userName = flag.String("username", "1234", "username for auto input")
+var passWord = flag.String("password", "1234", "password for auto input")
 
 type SAMLPreloginData struct {
 	Status         uint   `xml:"saml-auth-status"`
@@ -77,6 +79,8 @@ func Prelogin(samlPreloginHTML string) (*SAMLPreloginData, error) {
 	if err != nil {
 		return nil, err
 	}
+  js_autoinput := fmt.Sprintf(`document.getElementById("userNameInput").value='%s';document.getElementById("passwordInput").value='%s'`, *userName, *passWord)
+  ui.Eval(js_autoinput)
 	defer ui.Close()
 
 	// A trick to get back the SAML payload we got from the browser response
